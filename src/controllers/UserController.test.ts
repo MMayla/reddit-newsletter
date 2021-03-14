@@ -83,4 +83,25 @@ describe('Test UserController /user Get Requests', () => {
       },
     })
   })
+
+  it('Invalid request should return validation errors', async () => {
+    const result = await request(app).get('/user').send({})
+
+    expect(result.status).toBe(400)
+    expect(result.body).toEqual({
+      errorMessage: 'Validation Error',
+      errors: expect.arrayContaining(['input is missing required property user_id, which must be a string']),
+    })
+  })
+
+  it('Not existing user_id should return validation errors', async () => {
+    const result = await request(app).get('/user').send({
+      user_id: 'NOT_A_USER_ID',
+    })
+
+    expect(result.status).toBe(404)
+    expect(result.body).toEqual({
+      errorMessage: 'User not found',
+    })
+  })
 })

@@ -65,7 +65,13 @@ UserController.get('/', async (req: Request<GetUserRequest>, res: Response, next
 
     const user = getUser(reqBody.user_id)
 
-    res.status(200).send({ user: user })
+    if (!user) {
+      res.status(404).json({
+        errorMessage: 'User not found',
+      })
+    }
+
+    res.status(200).json({ user: user })
   } catch (e) {
     next(e)
   }
