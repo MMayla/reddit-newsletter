@@ -17,7 +17,7 @@ export const addUser = (user: Omit<User, 'id'>, db?: DBType): User => {
   const newUser: User = {
     id: nanoid(),
     firstName: user.firstName,
-    lastName: user.lastName,
+    lastName: user.lastName || '',
     email: user.email,
     subreddits: user.subreddits,
     subscribed: user.subscribed,
@@ -32,4 +32,10 @@ export const getUser = (userId: string, db?: DBType): User => {
   const user = currentDB.get('users').find({ id: userId }).value()
 
   return user
+}
+
+export const updateUser = (userId: string, update: Partial<Omit<User, 'id'>>, db?: DBType): User => {
+  const currentDB = db || getDB(process.env.DATABASE_PATH)
+  const updatedUser = currentDB.get('users').find({ id: userId }).merge(update).write()
+  return updatedUser
 }
