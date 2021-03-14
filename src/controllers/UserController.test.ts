@@ -1,5 +1,17 @@
 import request from 'supertest'
 import { app } from '../app'
+import { getDB } from '../utils/db'
+
+const testDBPath = 'db-test.json'
+const db = getDB(testDBPath)
+
+beforeAll(() => {
+  process.env.DATABASE_PATH = testDBPath
+})
+
+beforeEach(() => {
+  db.setState({ users: [] }).write()
+})
 
 describe('Test UserController /user Post Requests', () => {
   it('Valid request should return a user', async () => {
@@ -38,6 +50,37 @@ describe('Test UserController /user Post Requests', () => {
     expect(result.body).toEqual({
       errorMessage: 'Validation Error',
       errors: expect.arrayContaining(['input is missing required property first_name, which must be a string']),
+    })
+  })
+})
+
+describe('Test UserController /user Get Requests', () => {
+  it('Valid request should return a user', async () => {
+    const postUser = {
+      first_name: 'Mohamed',
+      last_name: 'Mayla',
+      email: 'mohamedmayla@gmail.com',
+      subreddits: ['worldnews'],
+    }
+
+    const postResult = await request(app).post('/user').send(postUser)
+
+    const validUserRequest = {
+      user_id: postResult.body.user.id,
+    }
+
+    const result = await request(app).get('/user').send(validUserRequest)
+
+    expect(result.status).toBe(200)
+    expect(result.body).toEqual({
+      user: {
+        id: validUserRequest.user_id,
+        firstName: postUser.first_name,
+        lastName: postUser.last_name,
+        email: postUser.email,
+        subreddits: postUser.subreddits,
+        subscribed: true,
+      },
     })
   })
 })

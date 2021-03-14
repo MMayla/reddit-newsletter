@@ -23,3 +23,11 @@ export const addUser = (user: Omit<User, 'id'>, db?: lowdb.LowdbSync<{ users: Ar
   currentDB.get('users').push(newUser).write()
   return newUser
 }
+
+export const getUser = (userId: string, db?: lowdb.LowdbSync<{ users: Array<User> }>): User => {
+  const currentDB = db || getDB(process.env.DATABASE_PATH)
+
+  const user = currentDB.get('users').find({ id: userId }).value()
+
+  return user
+}

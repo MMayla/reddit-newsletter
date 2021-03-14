@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import * as t from 'typed-validators'
 
-import { addUser } from '../utils/db'
+import { addUser, getUser } from '../utils/db'
 
 export const UserController: Router = Router()
 
@@ -46,14 +46,26 @@ UserController.post('/', async (req: Request, res: Response, next: NextFunction)
 })
 
 const GetUserRequestValidator = t.object({
-  userId: t.string(),
+  user_id: t.string(),
 })
 type GetUserRequest = t.ExtractType<typeof GetUserRequestValidator>
 
 UserController.get('/', async (req: Request<GetUserRequest>, res: Response, next: NextFunction) => {
   try {
-    console.log(req)
-    res.status(200).send({ data: 'GET USER' })
+    const validation = GetUserRequestValidator.validate(req.body)
+
+    if (validation.hasErrors()) {
+      return res.status(400).json({
+        errorMessage: 'Validation Error',
+        errors: validation.errors.map((e) => e.toString()),
+      })
+    }
+
+    const reqBody: GetUserRequest = req.body
+
+    const user = getUser(reqBody.user_id)
+
+    res.status(200).send({ user: user })
   } catch (e) {
     next(e)
   }

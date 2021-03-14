@@ -43,3 +43,4 @@ yarn.lock
 
 # Database
 db.json
+db-test.json
