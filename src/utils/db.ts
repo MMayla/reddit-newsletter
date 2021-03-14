@@ -3,6 +3,8 @@ import FileSync from 'lowdb/adapters/FileSync'
 import { nanoid } from 'nanoid'
 import { User } from 'types'
 
+export type DBType = lowdb.LowdbSync<{ users: Array<User> }>
+
 export const getDB = (dbPath?: string) => {
   const adapter = new FileSync<{ users: Array<User> }>(dbPath || 'db.json')
   const db = lowdb(adapter)
@@ -10,7 +12,7 @@ export const getDB = (dbPath?: string) => {
   return db
 }
 
-export const addUser = (user: Omit<User, 'id'>, db?: lowdb.LowdbSync<{ users: Array<User> }>): User => {
+export const addUser = (user: Omit<User, 'id'>, db?: DBType): User => {
   const currentDB = db || getDB(process.env.DATABASE_PATH)
   const newUser: User = {
     id: nanoid(),
@@ -24,7 +26,7 @@ export const addUser = (user: Omit<User, 'id'>, db?: lowdb.LowdbSync<{ users: Ar
   return newUser
 }
 
-export const getUser = (userId: string, db?: lowdb.LowdbSync<{ users: Array<User> }>): User => {
+export const getUser = (userId: string, db?: DBType): User => {
   const currentDB = db || getDB(process.env.DATABASE_PATH)
 
   const user = currentDB.get('users').find({ id: userId }).value()
