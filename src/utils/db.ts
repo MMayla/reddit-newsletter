@@ -39,3 +39,8 @@ export const updateUser = (userId: string, update: Partial<Omit<User, 'id'>>, db
   const updatedUser = currentDB.get('users').find({ id: userId }).merge(update).write()
   return updatedUser
 }
+
+export const getAllUsers = (db?: DBType): Array<User> => {
+  const currentDB = db || getDB(process.env.DATABASE_PATH)
+  return currentDB.get('users').value()
+}
