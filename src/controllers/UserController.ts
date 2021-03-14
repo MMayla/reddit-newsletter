@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import { nanoid } from 'nanoid'
 import * as t from 'typed-validators'
-import { User } from 'types'
+
+import { addUser } from '../utils/db'
+
 export const UserController: Router = Router()
 
 const PostUserRequestValidator = t.object({
@@ -30,20 +31,24 @@ UserController.post('/', async (req: Request, res: Response, next: NextFunction)
 
     const reqBody: PostUserRequest = req.body
 
-    const user: User = {
-      id: nanoid(),
+    const createdUser = addUser({
       firstName: reqBody.first_name,
       lastName: reqBody.last_name,
       email: reqBody.email,
       subreddits: reqBody.subreddits,
       subscribed: reqBody.subscribed || true,
-    }
+    })
 
-    res.status(200).json({ user: user })
+    res.status(200).json({ user: createdUser })
   } catch (e) {
     next(e)
   }
 })
+
+const GetUserRequestValidator = t.object({
+  userId: t.string(),
+})
+type GetUserRequest = t.ExtractType<typeof GetUserRequestValidator>
 
 UserController.get('/', async (req: Request<GetUserRequest>, res: Response, next: NextFunction) => {
   try {
