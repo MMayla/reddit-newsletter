@@ -2,20 +2,34 @@
   "name": "reddit-newsletter",
   "version": "1.0.0",
   "description": "Reddit Newsletter",
-  "main": "index.js",
-  "author": "Mohamed Mayla <mohamed.mayla@gmail.com>",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "express"
+  ],
   "license": "MIT",
+  "author": "Mohamed Mayla <mohamed.mayla@gmail.com>",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon",
     "build": "tsc",
     "lint": "eslint --ext js,jsx,ts,tsx --fix",
     "test": "jest"
   },
-  "keywords": [
-    "nodejs",
-    "typescript",
-    "express"
-  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lowdb": "^1.0.0",
+    "nanoid": "^3.1.21",
+    "snoowrap": "^1.22.0",
+    "typed-validators": "^4.0.4"
+  },
   "devDependencies": {
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
@@ -39,18 +53,5 @@
     "ts-jest": "^26.5.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
-  },
-  "dependencies": {
-    "@sendgrid/mail": "^7.4.2",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "lowdb": "^1.0.0",
-    "nanoid": "^3.1.21",
-    "typed-validators": "^4.0.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }
