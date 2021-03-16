@@ -1,4 +1,11 @@
 import Reddit from 'snoowrap'
+import { ImagePreviewSource } from 'snoowrap/dist/objects/Submission'
+
+interface Post {
+  title: string
+  image: ImagePreviewSource
+  votes: number
+}
 
 let _client: Reddit
 
@@ -31,12 +38,25 @@ const getRedditClient = () => {
   return _client
 }
 
-export const getTopPostsPastDay = async (subreddit: string, limit?: number) => {
+export const getTopPostsPastDay = async (subreddit: string, limit?: number): Promise<Post[]> => {
   const client = getRedditClient()
   const topPosts = await client.getSubreddit(subreddit).getTop({ time: 'day', limit: limit })
   return topPosts.map((p) => ({
     title: p.title,
-    media: p.preview.images[0].source,
+    image: p.preview.images[0].source,
     votes: p.ups,
   }))
+}
+
+export const getTopPostsPastDayForSubs = async (subreddits: string[], limit?: number) => {
+  const topPostsBySubs: Record<string, Post[]> = {}
+  for (const sub of subreddits) {
+    const subLowerCase = sub.toLowerCase()
+    const posts = await getTopPostsPastDay(subLowerCase, limit)
+    if (!topPostsBySubs[subLowerCase]) {
+      topPostsBySubs[subLowerCase] = posts
+    }
+  }
+
+  return topPostsBySubs
 }
