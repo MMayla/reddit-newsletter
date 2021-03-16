@@ -5,11 +5,8 @@ import { getDB } from '../../utils/db'
 const testDBPath = 'db-test.json'
 const db = getDB(testDBPath)
 
-beforeAll(() => {
+beforeAll(async () => {
   process.env.DATABASE_PATH = testDBPath
-})
-
-beforeEach(() => {
   db.setState({ users: [] }).write()
 })
 
@@ -33,6 +30,7 @@ describe('Test UserController /user Put Requests', () => {
 
     const result = await request(app).put('/user').send(validUserRequest)
 
+    console.log(`Checking if user ${validUserRequest.user_id} exist`)
     expect(result.status).toBe(200)
     expect(result.body).toEqual({
       user: {

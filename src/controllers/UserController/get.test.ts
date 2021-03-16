@@ -7,9 +7,6 @@ const db = getDB(testDBPath)
 
 beforeAll(() => {
   process.env.DATABASE_PATH = testDBPath
-})
-
-beforeEach(() => {
   db.setState({ users: [] }).write()
 })
 
@@ -30,6 +27,7 @@ describe('Test UserController /user Get Requests', () => {
 
     const result = await request(app).get('/user').send(validUserRequest)
 
+    console.log(`Checking if user ${validUserRequest.user_id} exist`)
     expect(result.status).toBe(200)
     expect(result.body).toEqual({
       user: {

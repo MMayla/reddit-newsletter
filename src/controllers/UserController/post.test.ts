@@ -7,9 +7,6 @@ const db = getDB(testDBPath)
 
 beforeAll(() => {
   process.env.DATABASE_PATH = testDBPath
-})
-
-beforeEach(() => {
   db.setState({ users: [] }).write()
 })
 
