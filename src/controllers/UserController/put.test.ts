@@ -1,13 +1,9 @@
 import request from 'supertest'
 import { app } from '../../app'
-import { getDB } from '../../utils/db'
-
-const testDBPath = 'db-test.json'
-const db = getDB(testDBPath)
+import { TEST_DB_PATH } from './constants'
 
 beforeAll(async () => {
-  process.env.DATABASE_PATH = testDBPath
-  db.setState({ users: [] }).write()
+  process.env.DATABASE_PATH = TEST_DB_PATH
 })
 
 describe('Test UserController /user Put Requests', () => {
