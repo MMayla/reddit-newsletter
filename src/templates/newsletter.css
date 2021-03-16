@@ -1,0 +1,27 @@
+.wrapper {
+    width: 80%;
+    margin: auto;
+  }
+  
+  .subreddit {
+    margin-bottom: 80px;
+  }
+  
+  .post {
+    margin-bottom: 40px;
+  }
+  
+  .center-text {
+    text-align: center;
+  }
+  
+  .tag {
+    background-color: #FF5700;
+    color: #fff;
+    width: 4.5em;
+    height: 2em;
+    line-height: 2em;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 1em;
+  }

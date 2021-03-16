@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Reddit Newsletter
+    style
+      include newsletter.css
+  body
+    h1 Hello #{userFirstName},
+    p See yesterday’s top voted posts from your favorite subreddits
+    div(class='wrapper')
+      each posts, subName in subs
+        div(class='subreddit')
+          div(class='center-text')
+            h2=subName
+            p
+              - var subUrl = "https://www.reddit.com/r/"+subName
+              a(href=subUrl target='_blank') #{subUrl}
+          each post in posts
+            div(class='post')
+              img(src=post.image.url alt=post.title width='100%')
+              div(class='tag') #{post.votes}
+              p(class='center-text')
+                a(href=post.url target='_blank') #{post.title}
