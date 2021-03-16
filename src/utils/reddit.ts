@@ -3,7 +3,7 @@ import { ImagePreviewSource } from 'snoowrap/dist/objects/Submission'
 
 interface Post {
   title: string
-  image: ImagePreviewSource
+  image?: ImagePreviewSource
   votes: number
 }
 
@@ -43,7 +43,7 @@ export const getTopPostsPastDay = async (subreddit: string, limit?: number): Pro
   const topPosts = await client.getSubreddit(subreddit).getTop({ time: 'day', limit: limit })
   return topPosts.map((p) => ({
     title: p.title,
-    image: p.preview.images[0].source,
+    image: p.preview ? p.preview.images[0].source : undefined,
     votes: p.ups,
   }))
 }
