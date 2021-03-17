@@ -18,7 +18,8 @@ html(lang='en')
               a(href=subUrl target='_blank') #{subUrl}
           each post in posts
             div(class='post')
-              img(src=post.image.url alt=post.title width='100%')
+              if post.image
+                img(src=post.image.url alt=post.title width='100%')
               div(class='tag') #{post.votes}
               p(class='center-text')
                 a(href=post.url target='_blank') #{post.title}
