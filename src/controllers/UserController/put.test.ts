@@ -64,4 +64,52 @@ describe('Test UserController /user Put Requests', () => {
       errorMessage: 'User not found',
     })
   })
+
+  it('Invalid email should return validation errors', async () => {
+    const postUser = {
+      first_name: 'Mohamed',
+      last_name: 'Mayla',
+      email: 'mohamedmayla@gmail.com',
+      subreddits: ['worldnews'],
+    }
+
+    const postResult = await request(app).post('/user').send(postUser)
+
+    const updateRequest = {
+      user_id: postResult.body.user.id,
+      email: 'NOT VALID EMAIL',
+    }
+
+    const result = await request(app).put('/user').send(updateRequest)
+
+    expect(result.status).toBe(400)
+    expect(result.body).toEqual({
+      errorMessage: 'Validation Error',
+      errors: expect.arrayContaining(['input.email Not valid email address']),
+    })
+  })
+
+  it('Invalid name should return validation errors', async () => {
+    const postUser = {
+      first_name: 'Mohamed',
+      last_name: 'Mayla',
+      email: 'mohamedmayla@gmail.com',
+      subreddits: ['worldnews'],
+    }
+
+    const postResult = await request(app).post('/user').send(postUser)
+
+    const updateRequest = {
+      user_id: postResult.body.user.id,
+      last_name: '',
+    }
+
+    const result = await request(app).put('/user').send(updateRequest)
+
+    expect(result.status).toBe(400)
+    expect(result.body).toEqual({
+      errorMessage: 'Validation Error',
+      errors: expect.arrayContaining(['input.last_name should have at least 1 character']),
+    })
+  })
 })
