@@ -1,7 +1,7 @@
 import Reddit from 'snoowrap'
 import { ImagePreviewSource } from 'snoowrap/dist/objects/Submission'
 
-interface Post {
+export interface Post {
   title: string
   image?: ImagePreviewSource
   votes: number
@@ -53,10 +53,9 @@ export const getTopPostsPastDay = async (subreddit: string, limit?: number): Pro
 export const getTopPostsPastDayForSubs = async (subreddits: string[], limit?: number) => {
   const topPostsBySubs: Record<string, Post[]> = {}
   for (const sub of subreddits) {
-    const subLowerCase = sub.toLowerCase()
-    const posts = await getTopPostsPastDay(subLowerCase, limit)
-    if (!topPostsBySubs[subLowerCase]) {
-      topPostsBySubs[subLowerCase] = posts
+    const posts = await getTopPostsPastDay(sub, limit)
+    if (!topPostsBySubs[sub]) {
+      topPostsBySubs[sub] = posts
     }
   }
 
