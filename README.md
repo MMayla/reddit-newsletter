@@ -45,3 +45,9 @@
 ```
 
 Setting `subscribed` to false will disable sending newsletters to this user
+
+---
+
+## Newsletter Email
+
+![Newsletter screenshot](docs/newsletter-screenshot.png)
