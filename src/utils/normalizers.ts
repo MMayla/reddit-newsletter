@@ -13,4 +13,5 @@ export const normalizePost = (post: Post): NormalizedPost => ({
   votes: normalizeNumberToK(post.votes),
 })
 
-export const normalizePosts = (posts: Post[]): NormalizedPost[] => posts.map((p) => normalizePost(p))
+export const normalizePosts = (posts: Post[]): NormalizedPost[] =>
+  posts.sort((a, b) => b.votes - a.votes).map((p) => normalizePost(p))
