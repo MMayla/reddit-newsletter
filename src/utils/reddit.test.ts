@@ -17,7 +17,7 @@ describe('Reddit Utils', () => {
   })
 
   it('Get top 3 post for list of subreddits', async () => {
-    const subsPosts = await getTopPostsPastDayForSubs(['Funny', 'THIS-SUBREDDIT-NOT-EXISTING-EDDJHC@', 'funny'], 3)
+    const subsPosts = await getTopPostsPastDayForSubs(['funny', 'this-subreddit-not-existing-eddjhc@', 'funny'], 3)
 
     expect(Object.keys(subsPosts)).toStrictEqual(['funny', 'this-subreddit-not-existing-eddjhc@'])
     expect(subsPosts['funny'].length).toBe(3)

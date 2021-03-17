@@ -42,7 +42,7 @@ describe('Test UserController /user Post Requests', () => {
     expect(result.status).toBe(400)
     expect(result.body).toEqual({
       errorMessage: 'Validation Error',
-      errors: expect.arrayContaining(['input is missing required property first_name, which must be a string']),
+      errors: expect.arrayContaining(['input is missing required property first_name, which must be NameType']),
     })
   })
 
