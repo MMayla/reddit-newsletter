@@ -3,6 +3,8 @@ import FileSync from 'lowdb/adapters/FileSync'
 import { nanoid } from 'nanoid'
 import { User } from 'types'
 
+import { arrayToLowercase } from './normalizers'
+
 export type DBType = lowdb.LowdbSync<{ users: Array<User> }>
 
 export const getDB = (dbPath?: string) => {
@@ -19,7 +21,7 @@ export const addUser = (user: Omit<User, 'id'>, db?: DBType): User => {
     firstName: user.firstName,
     lastName: user.lastName || '',
     email: user.email,
-    subreddits: user.subreddits,
+    subreddits: arrayToLowercase(user.subreddits),
     subscribed: user.subscribed,
   }
   currentDB.get('users').push(newUser).write()
@@ -36,6 +38,9 @@ export const getUser = (userId: string, db?: DBType): User => {
 
 export const updateUser = (userId: string, update: Partial<Omit<User, 'id'>>, db?: DBType): User => {
   const currentDB = db || getDB(process.env.DATABASE_PATH)
+  if (update.subreddits) {
+    update.subreddits = arrayToLowercase(update.subreddits)
+  }
   const updatedUser = currentDB.get('users').find({ id: userId }).merge(update).write()
   return updatedUser
 }
