@@ -2,7 +2,7 @@ import schedule from 'node-schedule'
 import pug from 'pug'
 import path from 'path'
 import { getAllUsers } from './utils/db'
-import { getTopPostsPastDayForSubs, Post } from './utils/reddit'
+import { getTopPostsPastDayForSubs } from './utils/reddit'
 import { sendEmail } from './utils/email'
 import { normalizePosts, NormalizedPost } from './utils/normalizers'
 
