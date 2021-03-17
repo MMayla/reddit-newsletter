@@ -16,6 +16,7 @@
   }
   
   .tag {
+    margin: auto;
     background-color: #FF5700;
     color: #fff;
     width: 4.5em;

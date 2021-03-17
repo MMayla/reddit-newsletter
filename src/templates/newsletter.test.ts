@@ -22,14 +22,14 @@ describe('Email Template', () => {
             image: {
               url: 'https://preview.redd.it/rktwk0uop1n61.jpg?auto=webp&s=633eebc63d6cfafc30d4975abc82114fa41ea201',
             },
-            votes: 45000,
+            votes: '45k',
             url: 'https://www.reddit.com/r/funny/comments/m6fp40/i_guess_we_have_a_new_appliance/',
           },
         ],
         notfunny: [
           {
             title: 'title3',
-            votes: 780000,
+            votes: '780k',
             url: 'https://www.reddit.com/r/funny/comments/m6fp40/i_guess_we_have_a_new_appliance/',
           },
         ],
