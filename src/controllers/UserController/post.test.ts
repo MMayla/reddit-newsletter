@@ -45,4 +45,36 @@ describe('Test UserController /user Post Requests', () => {
       errors: expect.arrayContaining(['input is missing required property first_name, which must be a string']),
     })
   })
+
+  it('Invalid email should return validation errors', async () => {
+    const validUserRequest = {
+      first_name: 'Mohamed',
+      email: 'NOT EMAIL',
+      subreddits: ['worldnews'],
+    }
+
+    const result = await request(app).post('/user').send(validUserRequest)
+
+    expect(result.status).toBe(400)
+    expect(result.body).toEqual({
+      errorMessage: 'Validation Error',
+      errors: expect.arrayContaining(['input.email Not valid email address']),
+    })
+  })
+
+  it('Invalid name should return validation errors', async () => {
+    const validUserRequest = {
+      first_name: '',
+      email: 'mohamed.mayla@gmail.com',
+      subreddits: ['worldnews'],
+    }
+
+    const result = await request(app).post('/user').send(validUserRequest)
+
+    expect(result.status).toBe(400)
+    expect(result.body).toEqual({
+      errorMessage: 'Validation Error',
+      errors: expect.arrayContaining(['input.first_name should have at least 1 character']),
+    })
+  })
 })

@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from 'express'
 import * as t from 'typed-validators'
 
+import { EmailType, NameType } from './validators'
 import { addUser } from '../../utils/db'
 
 const PostUserRequestValidator = t.object({
   required: {
-    first_name: t.string(),
-    email: t.string(),
+    first_name: NameType,
+    email: EmailType,
     subreddits: t.array(t.string()),
   },
   optional: {
-    last_name: t.string(),
+    last_name: NameType,
     subscribed: t.boolean(),
   },
 })
