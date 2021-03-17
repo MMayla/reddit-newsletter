@@ -46,7 +46,7 @@ export const getTopPostsPastDay = async (subreddit: string, limit?: number): Pro
     title: p.title,
     image: p.preview ? p.preview.images[0].source : undefined,
     votes: p.ups,
-    url: p.url,
+    url: `https://www.reddit.com${p.permalink}`,
   }))
 }
 
