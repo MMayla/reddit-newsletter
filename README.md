@@ -21,7 +21,7 @@
 {
     "first_name": "John",
     "last_name": "Doe",
-    "email": "john.doe@gmail.comdsd",
+    "email": "john.doe@gmail.com",
     "subreddits": ["funny", "OddlySatisfying", "godot"]
 }
 ```
